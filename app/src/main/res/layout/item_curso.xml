@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_item_curso"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_margin="6dp">
+
+            <TextView
+                android:id="@+id/tvNombreCurso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pastoreados en su amor"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tvTurno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jueves tarde - secion 02"
+                android:textSize="15sp"
+                tools:layout_editor_absoluteX="129dp"
+                tools:layout_editor_absoluteY="50dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
