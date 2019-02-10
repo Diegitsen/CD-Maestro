@@ -1,14 +1,33 @@
 package com.example.cdmaestro.Notas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.cdmaestro.Curso;
+import com.example.cdmaestro.CursoAdapter;
 import com.example.cdmaestro.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +38,8 @@ import com.example.cdmaestro.R;
  * Use the {@link NotasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotasFragment extends Fragment {
+public class NotasFragment extends Fragment implements Response.Listener<JSONObject>,
+        Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +50,13 @@ public class NotasFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    RecyclerView recyclerView;
+    ArrayList<Curso> cursos;
+
+    ProgressDialog progressDialog;
+
+    RequestQueue request;
 
     public NotasFragment() {
         // Required empty public constructor
@@ -65,9 +92,36 @@ public class NotasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notas, container, false);
+        View vista = inflater.inflate(R.layout.fragment_notas, container, false);
+
+        cursos = new ArrayList<>();
+
+        recyclerView = vista.findViewById(R.id.idRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setHasFixedSize(true);
+
+        request = Volley.newRequestQueue(getContext());
+
+
+        cargarWebService();
+
+        return vista;
+
+
     }
+
+    private void cargarWebService()
+    {
+
+        Bundle bundle = getArguments();
+        int idProf = bundle.getInt("ID_PROFESOR");
+
+        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarCursosProfesor.php?idProfesor=" + idProf;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -91,6 +145,46 @@ public class NotasFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+        Toast.makeText(getContext(), "No se pudo conectar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        Curso curso = null;
+
+        JSONArray json = response.optJSONArray("curso");
+
+        try{
+            for(int i = 0; i < json.length(); i++)
+            {
+                curso = new Curso();
+                JSONObject jsonObject = null;
+                jsonObject = json.getJSONObject(i);
+
+                curso.setNombre(jsonObject.optString("nombre"));
+                curso.setTurno(jsonObject.optInt("turno"));
+
+                cursos.add(curso);
+
+            }
+
+            CursoAdapter adapter = new CursoAdapter(cursos);
+            recyclerView.setAdapter(adapter);
+
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "No se ha podido conectar con el servidor" +
+                    response, Toast.LENGTH_SHORT).show();
+            progressDialog.hide();
+        }
     }
 
     /**

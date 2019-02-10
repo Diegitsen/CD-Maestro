@@ -38,11 +38,17 @@ public class MainActivity extends AppCompatActivity implements IFragments {
 
                 case R.id.navigation_notas:
                     frag = new NotasFragment();
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putInt("ID_PROFESOR", idProf);
+                    frag.setArguments(bundle2);
                     fragmentSeleccionado = true;
                     break;
 
                 case R.id.navigation_reporte:
                     frag = new ReporteFragment();
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putInt("ID_PROFESOR", idProf);
+                    frag.setArguments(bundle3);
                     fragmentSeleccionado = true;
                     break;
             }
