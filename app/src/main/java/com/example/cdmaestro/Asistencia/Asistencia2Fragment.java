@@ -1,14 +1,35 @@
 package com.example.cdmaestro.Asistencia;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.cdmaestro.Alumno;
+import com.example.cdmaestro.AlumnoAdapter;
+import com.example.cdmaestro.Curso;
+import com.example.cdmaestro.CursoAdapter;
 import com.example.cdmaestro.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +40,9 @@ import com.example.cdmaestro.R;
  * Use the {@link Asistencia2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Asistencia2Fragment extends Fragment {
+public class Asistencia2Fragment extends Fragment implements Response.Listener<JSONObject>,
+        Response.ErrorListener
+{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +53,15 @@ public class Asistencia2Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    int idCurso;
+
+    RecyclerView recyclerView;
+    ArrayList<Alumno> alumnos;
+
+    ProgressDialog progressDialog;
+
+    RequestQueue request;
 
     public Asistencia2Fragment() {
         // Required empty public constructor
@@ -56,6 +88,11 @@ public class Asistencia2Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        idCurso = bundle.getInt("ID_CURSO");
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -66,7 +103,28 @@ public class Asistencia2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_asistencia2, container, false);
+        View vista = inflater.inflate(R.layout.fragment_asistencia2, container, false);
+
+        alumnos = new ArrayList<>();
+
+        recyclerView = vista.findViewById(R.id.idRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setHasFixedSize(true);
+
+        request = Volley.newRequestQueue(getContext());
+
+
+        cargarWebService();
+
+        return vista;
+    }
+
+    private void cargarWebService()
+    {
+        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarAlumnosPorCurso.php?idCurso=" + idCurso;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +149,45 @@ public class Asistencia2Fragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo conectar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response)
+    {
+        Alumno alumno = null;
+
+        JSONArray json = response.optJSONArray("alumno");
+
+        try{
+            for(int i = 0; i < json.length(); i++)
+            {
+                alumno = new Alumno();
+                JSONObject jsonObject = null;
+                jsonObject = json.getJSONObject(i);
+
+                alumno.setNombre(jsonObject.optString("nombre"));
+
+                alumnos.add(alumno);
+
+            }
+
+            AlumnoAdapter adapter = new AlumnoAdapter(alumnos);
+            recyclerView.setAdapter(adapter);
+
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "No se ha podido conectar con el servidor" +
+                    response, Toast.LENGTH_SHORT).show();
+            progressDialog.hide();
+        }
+
     }
 
     /**

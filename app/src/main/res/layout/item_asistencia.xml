@@ -12,9 +12,10 @@
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayoutCancion"
+        android:id="@+id/lay_item_asistencia"
         android:orientation="horizontal"
         android:background="@drawable/horizontal_line"
+        android:layout_margin="10dp"
 
         >
 
@@ -24,12 +25,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_margin="10dp"
             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvTituloCancion"
+                android:id="@+id/tvNombreAlumno"
                 android:textSize="23sp"
                 android:text="Diego Salcedo Vaccaro"/>
 
@@ -40,8 +42,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             >
             <RadioButton
+                android:id="@+id/rbAsistio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />

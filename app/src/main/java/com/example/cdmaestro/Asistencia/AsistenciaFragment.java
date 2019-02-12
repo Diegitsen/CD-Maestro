@@ -118,6 +118,7 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
 
         cargarWebService();
 
+
         return vista;
     }
 
@@ -171,7 +172,11 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
     {
         Curso curso = null;
 
-        JSONArray json = response.optJSONArray("curso");
+        JSONArray json = new JSONArray();
+
+        json = response.optJSONArray("curso");
+
+        Log.d("hola", "mundo");
 
         try{
             for(int i = 0; i < json.length(); i++)
@@ -182,12 +187,17 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
 
                 curso.setNombre(jsonObject.optString("nombre"));
                 curso.setTurno(jsonObject.optInt("turno"));
+                curso.setIdCurso(jsonObject.optInt("idCurso"));
+
+                //passData(curso.getIdCurso());
 
                 cursos.add(curso);
 
             }
 
             CursoAdapter adapter = new CursoAdapter(cursos);
+
+
             recyclerView.setAdapter(adapter);
 
         }catch (JSONException e)
@@ -198,6 +208,14 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
             progressDialog.hide();
         }
 
+    }
+
+    public void passData(int idCurso)
+    {
+        Asistencia2Fragment fragment = new Asistencia2Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID_CURSO", idCurso);
+        fragment.setArguments(bundle);
     }
 
     /**

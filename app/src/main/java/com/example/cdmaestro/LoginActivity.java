@@ -106,11 +106,6 @@ public class LoginActivity extends AppCompatActivity implements Response.Listene
 
     }
 
-    public int getIdProf()
-    {
-        return idProf;
-    }
-
     public void goToActivity(int id)
     {
         Intent i = new Intent(this, MainActivity.class);
@@ -119,12 +114,6 @@ public class LoginActivity extends AppCompatActivity implements Response.Listene
         b.putInt("ID_PROFESOR", id);
         i.putExtras(b);
 
-
-        /*
-        Bundle bundle = new Bundle();
-        bundle.putInt("ID_PROFESOR", id);
-        Fragment asistenciaFragment = new AsistenciaFragment();
-        asistenciaFragment.setArguments(bundle);*/
         startActivity(i);
     }
 }
