@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements Response.Listene
         progressDialog.setMessage("Cargando...");
         progressDialog.show();
 
-        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONLoginProfesor.php?username=" + etUsuario.getText().toString() +
+        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONLoginProfesor.php?usuario=" + etUsuario.getText().toString() +
                 "&contrasenia=" + etContrasenia.getText().toString();
 
         url = url.replace(" ", "%20");
@@ -88,15 +88,15 @@ public class LoginActivity extends AppCompatActivity implements Response.Listene
             profesor.setIdProfesor(jsonObject.optInt("idProfesor"));
             profesor.setNombre(jsonObject.optString("nombre"));
             profesor.setApellido(jsonObject.optString("apellido"));
-            profesor.setMinisterio(jsonObject.optString("ministerio"));
-            profesor.setUsername(jsonObject.optString("username"));
+            profesor.setIdMinisterio(jsonObject.optInt("idMinisterio"));
+            profesor.setUsuario(jsonObject.optString("usuario"));
             profesor.setContrasenia(jsonObject.optString("contrasenia"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if(!(profesor.getUsername().isEmpty()) && !(profesor.getContrasenia().isEmpty()))
+        if(!(profesor.getUsuario().isEmpty()) && !(profesor.getContrasenia().isEmpty()))
         {
             Toast.makeText(this, "Se logeo ", Toast.LENGTH_SHORT).show();
             goToActivity(profesor.getIdProfesor());

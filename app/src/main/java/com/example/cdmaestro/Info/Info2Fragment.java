@@ -1,10 +1,11 @@
-package com.example.cdmaestro.Notas;
+package com.example.cdmaestro.Info;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,10 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.cdmaestro.Curso;
-import com.example.cdmaestro.CursoAdapter;
+import com.example.cdmaestro.Alumno;
+import com.example.cdmaestro.AlumnoInfoAdapter;
+import com.example.cdmaestro.AlumnoNotaAdapter;
 import com.example.cdmaestro.R;
-import com.example.cdmaestro.Utils.GlobalVars;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,12 +35,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NotasFragment.OnFragmentInteractionListener} interface
+ * {@link Info2Fragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NotasFragment#newInstance} factory method to
+ * Use the {@link Info2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotasFragment extends Fragment implements Response.Listener<JSONObject>,
+public class Info2Fragment extends Fragment implements Response.Listener<JSONObject>,
         Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,14 +53,16 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
 
     private OnFragmentInteractionListener mListener;
 
+    int idCurso;
+
     RecyclerView recyclerView;
-    ArrayList<Curso> cursos;
+    ArrayList<Alumno> alumnos;
 
     ProgressDialog progressDialog;
 
     RequestQueue request;
 
-    public NotasFragment() {
+    public Info2Fragment() {
         // Required empty public constructor
     }
 
@@ -69,11 +72,11 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NotasFragment.
+     * @return A new instance of fragment Info2Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotasFragment newInstance(String param1, String param2) {
-        NotasFragment fragment = new NotasFragment();
+    public static Info2Fragment newInstance(String param1, String param2) {
+        Info2Fragment fragment = new Info2Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -84,6 +87,10 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        idCurso = bundle.getInt("ID_CURSO");
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -93,38 +100,30 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_notas, container, false);
+        // Inflate the layout for this fragment
+        View vista = inflater.inflate(R.layout.fragment_info2, container, false);
 
-        cursos = new ArrayList<>();
+        alumnos = new ArrayList<>();
 
-        recyclerView = vista.findViewById(R.id.idRecycler);
+        recyclerView = vista.findViewById(R.id.idRecyclerInfo);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
 
         request = Volley.newRequestQueue(getContext());
 
 
-        GlobalVars.cursoFragment = 2;
-
         cargarWebService();
 
         return vista;
-
-
     }
 
     private void cargarWebService()
     {
-
-        Bundle bundle = getArguments();
-        int idProf = bundle.getInt("ID_PROFESOR");
-
-        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarCursosProfesor.php?idProfesor=" + idProf;
+        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarAlumnosPorCurso.php?idCurso=" + idCurso;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -158,28 +157,34 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
     }
 
     @Override
-    public void onResponse(JSONObject response) {
+    public void onResponse(JSONObject response)
+    {
+        Alumno alumno = null;
 
-        Curso curso = null;
-
-        JSONArray json = response.optJSONArray("curso");
+        JSONArray json = response.optJSONArray("alumno");
 
         try{
             for(int i = 0; i < json.length(); i++)
             {
-                curso = new Curso();
+                alumno = new Alumno();
                 JSONObject jsonObject = null;
                 jsonObject = json.getJSONObject(i);
 
-                curso.setIdCurso(jsonObject.optInt("idCurso"));
-                curso.setNombre(jsonObject.optString("nombre"));
-                curso.setTurno(jsonObject.optInt("turno"));
+                alumno.setNombre(jsonObject.optString("nombre"));
+                alumno.setApellido(jsonObject.optString("apellido"));
+                alumno.setMinisterio(jsonObject.optInt("idMinisterio"));
+                alumno.setLider(jsonObject.optString("lider"));
+                alumno.setDireccion(jsonObject.optString("direccion"));
+                alumno.setDistrito(jsonObject.optString("distrito"));
+                alumno.setTelefono(jsonObject.optInt("telefono"));
 
-                cursos.add(curso);
+                alumnos.add(alumno);
 
             }
 
-            CursoAdapter adapter = new CursoAdapter(cursos);
+            AlumnoInfoAdapter adapter = new AlumnoInfoAdapter(alumnos);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
             recyclerView.setAdapter(adapter);
 
         }catch (JSONException e)
@@ -189,6 +194,7 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
                     response, Toast.LENGTH_SHORT).show();
             progressDialog.hide();
         }
+
     }
 
     /**

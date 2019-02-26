@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.example.cdmaestro.Asistencia.Asistencia2Fragment;
 import com.example.cdmaestro.Asistencia.AsistenciaFragment;
+import com.example.cdmaestro.Info.Info2Fragment;
+import com.example.cdmaestro.Notas.Notas2Fragment;
+import com.example.cdmaestro.Utils.GlobalVars;
 
 import java.util.List;
 
@@ -46,11 +49,26 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.CursosHolder
         holder.tvNombreCurso.setText(cursos.get(position).getNombre().toString());
         holder.tvTurno.setText(cursos.get(position).getTurno() + "");
 
+
         holder.lay_item_curso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Fragment frag = new Asistencia2Fragment();
+                Fragment frag  = new Notas2Fragment();
+
+                switch (GlobalVars.cursoFragment)
+                {
+                    case 1:
+                         frag = new Asistencia2Fragment();
+                        break;
+
+                    case 2:
+                         frag = new Notas2Fragment();
+                        break;
+                    case 3:
+                        frag = new Info2Fragment();
+                        break;
+                }
 
                 Bundle b = new Bundle();
                 b.putInt("ID_CURSO", cursos.get(position).getIdCurso());

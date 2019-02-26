@@ -5,10 +5,14 @@ public class Alumno
     int idAlumno;
     String nombre;
     String apellido;
-    String ministerio;
+    int ministerio;
     int nivel;
     String username;
     String contrasenia;
+    String lider;
+    int telefono;
+    String direccion;
+    String distrito;
 
     public int getIdAlumno() {
         return idAlumno;
@@ -34,11 +38,11 @@ public class Alumno
         this.apellido = apellido;
     }
 
-    public String getMinisterio() {
+    public int getMinisterio() {
         return ministerio;
     }
 
-    public void setMinisterio(String ministerio) {
+    public void setMinisterio(int ministerio) {
         this.ministerio = ministerio;
     }
 
@@ -64,5 +68,37 @@ public class Alumno
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public String getLider() {
+        return lider;
+    }
+
+    public void setLider(String lider) {
+        this.lider = lider;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(String distrito) {
+        this.distrito = distrito;
     }
 }

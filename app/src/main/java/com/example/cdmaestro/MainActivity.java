@@ -10,8 +10,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.cdmaestro.Asistencia.AsistenciaFragment;
+import com.example.cdmaestro.Info.InfoFragment;
 import com.example.cdmaestro.Notas.NotasFragment;
-import com.example.cdmaestro.Reporte.ReporteFragment;
 
 public class MainActivity extends AppCompatActivity implements IFragments {
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements IFragments {
                     break;
 
                 case R.id.navigation_reporte:
-                    frag = new ReporteFragment();
+                    frag = new InfoFragment();
                     Bundle bundle3 = new Bundle();
                     bundle3.putInt("ID_PROFESOR", idProf);
                     frag.setArguments(bundle3);

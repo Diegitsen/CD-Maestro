@@ -24,6 +24,7 @@ import com.example.cdmaestro.Curso;
 import com.example.cdmaestro.CursoAdapter;
 import com.example.cdmaestro.LoginActivity;
 import com.example.cdmaestro.R;
+import com.example.cdmaestro.Utils.GlobalVars;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,6 +116,8 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
 
         request = Volley.newRequestQueue(getContext());
 
+
+        GlobalVars.cursoFragment = 1;
 
         cargarWebService();
 

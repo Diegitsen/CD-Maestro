@@ -5,8 +5,8 @@ public class Profesor
     private int idProfesor;
     private String nombre;
     private String apellido;
-    private String ministerio;
-    private String username;
+    private int idMinisterio;
+    private String usuario;
     private String contrasenia;
 
     public Profesor()
@@ -14,12 +14,12 @@ public class Profesor
 
     }
 
-    public Profesor(int idProfesor, String nombre, String apellido, String ministerio, String username, String contrasenia) {
+    public Profesor(int idProfesor, String nombre, String apellido, int idMinisterio, String usuario, String contrasenia) {
         this.idProfesor = idProfesor;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.ministerio = ministerio;
-        this.username = username;
+        this.idMinisterio = idMinisterio;
+        this.usuario = usuario;
         this.contrasenia = contrasenia;
     }
 
@@ -47,21 +47,6 @@ public class Profesor
         this.apellido = apellido;
     }
 
-    public String getMinisterio() {
-        return ministerio;
-    }
-
-    public void setMinisterio(String ministerio) {
-        this.ministerio = ministerio;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getContrasenia() {
         return contrasenia;
@@ -69,5 +54,21 @@ public class Profesor
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public int getIdMinisterio() {
+        return idMinisterio;
+    }
+
+    public void setIdMinisterio(int idMinisterio) {
+        this.idMinisterio = idMinisterio;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }

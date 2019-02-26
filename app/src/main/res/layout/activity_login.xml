@@ -27,13 +27,15 @@
             android:id="@+id/etUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario" />
+            android:hint="Usuario"
+            android:singleLine="true"/>
 
         <EditText
             android:id="@+id/etContrasenia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contrasenia" />
+            android:hint="Contrasenia"
+            android:singleLine="true"/>
 
 
         <Button

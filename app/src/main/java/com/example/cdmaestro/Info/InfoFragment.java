@@ -1,4 +1,4 @@
-package com.example.cdmaestro.Notas;
+package com.example.cdmaestro.Info;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,12 +34,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NotasFragment.OnFragmentInteractionListener} interface
+ * {@link InfoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NotasFragment#newInstance} factory method to
+ * Use the {@link InfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotasFragment extends Fragment implements Response.Listener<JSONObject>,
+public class InfoFragment extends Fragment implements Response.Listener<JSONObject>,
         Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +59,7 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
 
     RequestQueue request;
 
-    public NotasFragment() {
+    public InfoFragment() {
         // Required empty public constructor
     }
 
@@ -69,11 +69,11 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NotasFragment.
+     * @return A new instance of fragment InfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotasFragment newInstance(String param1, String param2) {
-        NotasFragment fragment = new NotasFragment();
+    public static InfoFragment newInstance(String param1, String param2) {
+        InfoFragment fragment = new InfoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -93,7 +93,9 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_notas, container, false);
+        // Inflate the layout for this fragment
+
+        View vista = inflater.inflate(R.layout.fragment_info, container, false);
 
         cursos = new ArrayList<>();
 
@@ -104,14 +106,13 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
         request = Volley.newRequestQueue(getContext());
 
 
-        GlobalVars.cursoFragment = 2;
+        GlobalVars.cursoFragment = 3;
 
         cargarWebService();
 
         return vista;
-
-
     }
+
 
     private void cargarWebService()
     {
@@ -124,7 +125,6 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -152,13 +152,13 @@ public class NotasFragment extends Fragment implements Response.Listener<JSONObj
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
         Toast.makeText(getContext(), "No se pudo conectar" + error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("ERROR", error.toString());
     }
 
     @Override
     public void onResponse(JSONObject response) {
+
 
         Curso curso = null;
 
