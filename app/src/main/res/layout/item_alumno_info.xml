@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ministerio "
                     android:textSize="17sp"
-                    android:layout_weight=".8"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="Lider "
                     android:textSize="17sp"
-                    android:layout_weight=".8"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="Telefono "
                     android:textSize="17sp"
-                    android:layout_weight=".8"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="Direccion "
                     android:textSize="17sp"
-                    android:layout_weight=".8"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -142,7 +142,7 @@
 
             <ImageButton
                 android:layout_gravity="center"
-                android:id="@+id/imPhone"
+                android:id="@+id/ibPhone"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/ic_phone"

@@ -1,9 +1,14 @@
 package com.example.cdmaestro.Info;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -111,6 +116,7 @@ public class Info2Fragment extends Fragment implements Response.Listener<JSONObj
 
         request = Volley.newRequestQueue(getContext());
 
+        checkUserPermissions();
 
         cargarWebService();
 
@@ -210,5 +216,49 @@ public class Info2Fragment extends Fragment implements Response.Listener<JSONObj
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void checkUserPermissions()
+    {
+        if(Build.VERSION.SDK_INT>=23)
+        {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED)
+            {
+                // requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                //        REQUEST_CODE_ASK_PERMISSIONS);
+
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_ASK_PERMISSIONS);
+                return;
+            }
+        }
+        //getSongList();
+    }
+
+    static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode)
+        {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+            {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                }
+                else
+                {
+                    //Permission Denied
+                    Toast.makeText(getActivity(), "denegado", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            default:
+            {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+
+        }
     }
 }

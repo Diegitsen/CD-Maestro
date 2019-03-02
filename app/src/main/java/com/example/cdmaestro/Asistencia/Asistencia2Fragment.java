@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cdmaestro.Alumno;
 import com.example.cdmaestro.AlumnoAdapter;
+import com.example.cdmaestro.Alumno_Curso;
 import com.example.cdmaestro.Curso;
 import com.example.cdmaestro.CursoAdapter;
 import com.example.cdmaestro.R;
@@ -56,6 +60,11 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     private OnFragmentInteractionListener mListener;
 
     int idCurso;
+    private LinearLayout linearLayout_checkboxes;
+    private final ArrayList<CheckBox> allCb = new ArrayList<>();
+    private Button bEnviarDatos;
+
+    private int nService = 0;
 
     RecyclerView recyclerView;
     ArrayList<Alumno> alumnos;
@@ -107,10 +116,27 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
         View vista = inflater.inflate(R.layout.fragment_asistencia2, container, false);
 
         alumnos = new ArrayList<>();
+        linearLayout_checkboxes = (LinearLayout) vista.findViewById(R.id.linearLayout_checkboxes);
+        bEnviarDatos = vista.findViewById(R.id.bSaveData);
 
-        recyclerView = vista.findViewById(R.id.idRecycler);
+        /*recyclerView = vista.findViewById(R.id.idRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);*/
+
+        bEnviarDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 0; i < allCb.size(); i++)
+                {
+                    if(allCb.get(i).isChecked())
+                    {
+                        cargarWebService2(allCb.get(i).getId());
+                    }
+                }
+
+
+            }
+        });
 
         request = Volley.newRequestQueue(getContext());
 
@@ -122,7 +148,28 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
 
     private void cargarWebService()
     {
+        nService = 1;
         String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarAlumnosPorCurso.php?idCurso=" + idCurso;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+
+    private void cargarWebService2(int idAlumno)
+    {
+        nService = 2;
+
+        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idCurso=" + idCurso;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+
+    private void cargarWebService3(int idAlumnoCurso, int idClase)
+    {
+        nService = 3;
+
+        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONPonerAsistencia.php?asistio=" + 1 + "&idAlumnoCurso=" + idAlumnoCurso + "&idClase=" + idClase;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -161,35 +208,72 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     @Override
     public void onResponse(JSONObject response)
     {
-        Alumno alumno = null;
+        if(nService==1)
+        {
+            Alumno alumno = null;
 
-        JSONArray json = response.optJSONArray("alumno");
+            JSONArray json = response.optJSONArray("alumno");
 
-        try{
-            for(int i = 0; i < json.length(); i++)
-            {
-                alumno = new Alumno();
-                JSONObject jsonObject = null;
-                jsonObject = json.getJSONObject(i);
+            try{
+                for(int i = 0; i < json.length(); i++)
+                {
+                    alumno = new Alumno();
+                    JSONObject jsonObject = null;
+                    jsonObject = json.getJSONObject(i);
 
-                alumno.setNombre(jsonObject.optString("nombre"));
+                    alumno.setNombre(jsonObject.optString("nombre"));
+                    alumno.setIdAlumno(jsonObject.optInt("idAlumno"));
 
-                alumnos.add(alumno);
+                    CheckBox cb = new CheckBox(getActivity());
+                    cb.setText(alumno.getNombre());
+                    cb.setId(alumno.getIdAlumno());
+                    linearLayout_checkboxes.addView(cb);
+                    allCb.add(cb);
 
-            }
+                    alumnos.add(alumno);
 
-            AlumnoAdapter adapter = new AlumnoAdapter(alumnos);
+                }
+
+            /*AlumnoAdapter adapter = new AlumnoAdapter(alumnos);
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-            recyclerView.setAdapter(adapter);
+            recyclerView.setAdapter(adapter);*/
 
-        }catch (JSONException e)
-        {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "No se ha podido conectar con el servidor" +
-                    response, Toast.LENGTH_SHORT).show();
-            progressDialog.hide();
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "No se ha podido conectar con el servidor" +
+                        response, Toast.LENGTH_SHORT).show();
+                progressDialog.hide();
+            }
+
         }
+
+            else if(nService == 2)
+        {
+           // progressDialog.hide();
+
+            Alumno_Curso alumno_curso = new Alumno_Curso();
+
+            JSONArray json = response.optJSONArray("alumno_curso");
+            JSONObject jsonObject=null;
+
+            try {
+                jsonObject=json.getJSONObject(0);
+                alumno_curso.setIdAlumnoCurso(jsonObject.optInt("idAlumnoCurso"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+           // Toast.makeText(getActivity(), "" + alumno_curso.getIdAlumnoCurso(), Toast.LENGTH_SHORT).show();
+            cargarWebService3(alumno_curso.getIdAlumnoCurso(), idCurso);
+        }
+        else if(nService == 3)
+        {
+            Toast.makeText(getContext(), "Se ha marcado asistencia correctamente", Toast.LENGTH_SHORT).show();
+
+        }
+
 
     }
 
@@ -207,4 +291,5 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
