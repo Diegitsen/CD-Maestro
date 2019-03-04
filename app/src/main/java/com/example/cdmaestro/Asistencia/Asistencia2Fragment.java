@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -63,10 +66,12 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     //JSONObject response = new JSONObject();
 
     int idCurso;
+    int idClase = 0;
     int nAlumnos = 0;
     private LinearLayout linearLayout_checkboxes;
     private final ArrayList<CheckBox> allCb = new ArrayList<>();
     private Button bEnviarDatos;
+    private Spinner spinner;
 
     private int nService = 0;
     private List<Integer> listOfIds = new ArrayList<>();
@@ -124,6 +129,8 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
         linearLayout_checkboxes = (LinearLayout) vista.findViewById(R.id.linearLayout_checkboxes);
         bEnviarDatos = vista.findViewById(R.id.bSaveData);
 
+        spinner = vista.findViewById(R.id.sClases);
+        setUpSpinnerClases(spinner);
         /*recyclerView = vista.findViewById(R.id.idRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);*/
@@ -315,7 +322,7 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
 
             if(listOfIds.size()==nAlumnos)
             {
-                cargarWebService3(listOfIds, idCurso);
+                cargarWebService3(listOfIds, idClase);
             }
 
         }
@@ -341,6 +348,78 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setUpSpinnerClases(Spinner spinnerClases)
+    {
+        spinnerClases.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                String item = parent.getItemAtPosition(position).toString();
+
+                switch (item)
+                {
+                    case "1":
+                        idClase = 1;
+                        break;
+                    case "2":
+                        idClase = 2;
+                        break;
+                    case "3":
+                        idClase = 3;
+                        break;
+                    case "4":
+                        idClase = 4;
+                        break;
+                    case "5":
+                        idClase = 5;
+                        break;
+                    case "6":
+                        idClase = 6;
+                        break;
+                    case "7":
+                        idClase = 7;
+                        break;
+                    case "8":
+                        idClase = 8;
+                        break;
+                    case "9":
+                        idClase = 9;
+                        break;
+                    case "10":
+                        idClase = 10;
+                        break;
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        List<String> clases  = new ArrayList<String>();
+        clases.add("1");
+        clases.add("2");
+        clases.add("3");
+        clases.add("4");
+        clases.add("5");
+        clases.add("6");
+        clases.add("7");
+        clases.add("8");
+        clases.add("9");
+        clases.add("10");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, clases);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerClases.setAdapter(dataAdapter);
     }
 
 }
