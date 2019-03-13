@@ -170,7 +170,7 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     private void cargarWebService()
     {
         nService = 1;
-        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarAlumnosPorCurso.php?idCurso=" + idCurso;
+        String url = "https://capacitaciondestino.000webhostapp.com/wsJSONFiltrarAlumnosPorCurso.php?idCurso=" + idCurso;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -180,7 +180,7 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     {
         nService = 2;
 
-        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idCurso=" + idCurso;
+        String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idCurso=" + idCurso;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -212,7 +212,7 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
 
         for(int i = 0; i < list.size(); i++)
         {
-            String url = "http://192.168.0.14/CapacitacionDestino/wsJSONPonerAsistencia.php?asistio=" + 1 + "&idAlumnoCurso=" + list.get(i) + "&idClase=" + idClase;
+            String url = "https://capacitaciondestino.000webhostapp.com/wsJSONPonerAsistencia.php?asistio=" + 1 + "&idAlumnoCurso=" + list.get(i) + "&idClase=" + idClase;
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             request.add(jsonObjectRequest);
@@ -271,10 +271,11 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
                     jsonObject = json.getJSONObject(i);
 
                     alumno.setNombre(jsonObject.optString("nombre"));
+                    alumno.setApellido(jsonObject.optString("apellido"));
                     alumno.setIdAlumno(jsonObject.optInt("idAlumno"));
 
                     CheckBox cb = new CheckBox(getActivity());
-                    cb.setText(alumno.getNombre());
+                    cb.setText(alumno.getNombre() + " " + alumno.getApellido());
                     cb.setId(alumno.getIdAlumno());
                     linearLayout_checkboxes.addView(cb);
                     allCb.add(cb);

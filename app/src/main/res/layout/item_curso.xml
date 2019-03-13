@@ -29,7 +29,7 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tvTurno"
+                android:id="@+id/tvInfoCurso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

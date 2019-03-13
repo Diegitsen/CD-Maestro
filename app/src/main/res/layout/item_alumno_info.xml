@@ -2,17 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="12dp"
-    >
-
-
+    android:layout_margin="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre y Apellido"
-                android:textSize="20dp"/>
+                android:textSize="19dp"
+                android:layout_marginBottom="7dp"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,9 +37,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Id Ministerio: "
+                    android:text="Ministerio: "
                     android:textSize="17sp"
-                    android:textStyle="bold"
                     android:layout_weight="1.5"/>
 
                 <TextView
@@ -50,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ministerio "
                     android:textSize="17sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1.2"/>
 
             </LinearLayout>
 
@@ -67,7 +64,6 @@
                     android:layout_height="wrap_content"
                     android:text="Lider: "
                     android:textSize="17sp"
-                    android:textStyle="bold"
                     android:layout_weight="1.5"/>
 
                 <TextView
@@ -76,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text="Lider "
                     android:textSize="17sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1.2"/>
 
             </LinearLayout>
 
@@ -92,7 +88,6 @@
                     android:layout_height="wrap_content"
                     android:text="Telefono: "
                     android:textSize="17sp"
-                    android:textStyle="bold"
                     android:layout_weight="1.5"/>
 
                 <TextView
@@ -101,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:text="Telefono "
                     android:textSize="17sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1.2"/>
 
             </LinearLayout>
 
@@ -117,7 +112,6 @@
                     android:layout_height="wrap_content"
                     android:text="Direccion: "
                     android:textSize="17sp"
-                    android:textStyle="bold"
                     android:layout_weight="1.5"/>
 
                 <TextView
@@ -126,7 +120,31 @@
                     android:layout_height="wrap_content"
                     android:text="Direccion "
                     android:textSize="17sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1.2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Asistencias: "
+                    android:textSize="17sp"
+                    android:layout_weight="1.5"/>
+
+                <TextView
+                    android:id="@+id/tvAsistencias"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Asistencias"
+                    android:textSize="17sp"
+                    android:layout_weight="1.2"/>
 
             </LinearLayout>
 
@@ -138,7 +156,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_weight="4">
+            android:layout_weight="3">
 
             <ImageButton
                 android:layout_gravity="center"
@@ -150,9 +168,6 @@
 
         </LinearLayout>
 
-
-
     </LinearLayout>
-
 
 </LinearLayout>

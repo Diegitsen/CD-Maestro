@@ -55,7 +55,7 @@ public class ProfesorAdapter extends RecyclerView.Adapter<ProfesorAdapter.Profes
             super(itemView);
 
             tvNombreCurso= (TextView) itemView.findViewById(R.id.tvNombreCurso);
-            tvTurno= (TextView) itemView.findViewById(R.id.tvTurno);
+            tvTurno= (TextView) itemView.findViewById(R.id.tvInfoCurso);
         }
     }
 }

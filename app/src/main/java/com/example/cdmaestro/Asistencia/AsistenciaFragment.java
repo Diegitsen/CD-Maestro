@@ -131,7 +131,7 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
         Bundle bundle = getArguments();
         int idProf = bundle.getInt("ID_PROFESOR");
 
-        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONFiltrarCursosProfesor.php?idProfesor=" + idProf;
+        String url = "https://capacitaciondestino.000webhostapp.com/wsJSONFiltrarCursosProfesor.php?idProfesor=" + idProf;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -191,6 +191,8 @@ public class AsistenciaFragment extends Fragment implements Response.Listener<JS
                 curso.setNombre(jsonObject.optString("nombre"));
                 curso.setTurno(jsonObject.optInt("turno"));
                 curso.setIdCurso(jsonObject.optInt("idCurso"));
+                curso.setHora(jsonObject.optInt("hora"));
+                curso.setSalon(jsonObject.optString("salon"));
 
                 //passData(curso.getIdCurso());
 

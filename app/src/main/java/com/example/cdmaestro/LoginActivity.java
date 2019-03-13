@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements Response.Listene
         progressDialog.setMessage("Cargando...");
         progressDialog.show();
 
-        String url = "http://192.168.0.14/CapacitacionDestino/wsJSONLoginProfesor.php?usuario=" + etUsuario.getText().toString() +
+        String url = "https://capacitaciondestino.000webhostapp.com/wsJSONLoginProfesor.php?usuario=" + etUsuario.getText().toString() +
                 "&contrasenia=" + etContrasenia.getText().toString();
 
         url = url.replace(" ", "%20");

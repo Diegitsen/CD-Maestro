@@ -7,6 +7,8 @@ public class Curso
     int turno;
     int temporada;
     int idProfesor;
+    int hora;
+    String salon;
 
     public Curso()
     {
@@ -59,5 +61,21 @@ public class Curso
 
     public void setIdProfesor(int idProfesor) {
         this.idProfesor = idProfesor;
+    }
+
+    public int getHora() {
+        return hora;
+    }
+
+    public void setHora(int hora) {
+        this.hora = hora;
+    }
+
+    public String getSalon() {
+        return salon;
+    }
+
+    public void setSalon(String salon) {
+        this.salon = salon;
     }
 }

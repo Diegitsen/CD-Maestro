@@ -47,7 +47,13 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.CursosHolder
     public void onBindViewHolder(@NonNull final CursosHolder holder, final int position)
     {
         holder.tvNombreCurso.setText(cursos.get(position).getNombre().toString());
-        holder.tvTurno.setText(cursos.get(position).getTurno() + "");
+        if(cursos.get(position).getTurno()==1)
+            holder.tvInfoCurso.setText("J.M. - Salón: " + cursos.get(position).getSalon() + " - Hora: " + cursos.get(position).getHora());
+        else if (cursos.get(position).getTurno()==2)
+            holder.tvInfoCurso.setText("J.N. - Salón: " + cursos.get(position).getSalon() + " - Hora: " + cursos.get(position).getHora());
+        else if(cursos.get(position).getTurno()==3)
+            holder.tvInfoCurso.setText("S.M. - Salón: " + cursos.get(position).getSalon() + " - Hora: " + cursos.get(position).getHora());
+
 
 
         holder.lay_item_curso.setOnClickListener(new View.OnClickListener() {
@@ -88,13 +94,13 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.CursosHolder
 
 
     public class CursosHolder extends RecyclerView.ViewHolder {
-        TextView tvNombreCurso,tvTurno;
+        TextView tvNombreCurso,tvInfoCurso;
         LinearLayout lay_item_curso;
 
         public CursosHolder(View itemView) {
             super(itemView);
             tvNombreCurso= (TextView) itemView.findViewById(R.id.tvNombreCurso);
-            tvTurno= (TextView) itemView.findViewById(R.id.tvTurno);
+            tvInfoCurso= (TextView) itemView.findViewById(R.id.tvInfoCurso);
             lay_item_curso = itemView.findViewById(R.id.lay_item_curso);
         }
     }
