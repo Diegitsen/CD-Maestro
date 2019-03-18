@@ -13,6 +13,7 @@ public class Alumno
     int telefono;
     String direccion;
     String distrito;
+    double asistencia;
 
     public int getIdAlumno() {
         return idAlumno;
@@ -100,5 +101,13 @@ public class Alumno
 
     public void setDistrito(String distrito) {
         this.distrito = distrito;
+    }
+
+    public double getAsistencia() {
+        return asistencia;
+    }
+
+    public void setAsistencia(double asistencia) {
+        this.asistencia = asistencia;
     }
 }

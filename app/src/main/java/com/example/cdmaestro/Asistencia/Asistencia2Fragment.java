@@ -144,19 +144,16 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
                 {
                     if(allCb.get(i).isChecked())
                     {
-                        cargarWebService2(allCb.get(i).getId());
-                        nAlumnos++;
+                        //cargarWebService2(allCb.get(i).getId());
+                        cargarWebService4(allCb.get(i).getId());
+                        //nAlumnos++;
                     }
                 }
 
-
+                Toast.makeText(getContext(), "Se ha marcado las inasistencia correctamente", Toast.LENGTH_SHORT).show();
 
             }
         });
-
-
-
-
 
         request = Volley.newRequestQueue(getContext());
 
@@ -179,30 +176,10 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     private void cargarWebService2(int idAlumno)
     {
         nService = 2;
-
         String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idCurso=" + idCurso;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
-
-
-        //on response  yeeei
-
-       /* Alumno_Curso alumno_curso = new Alumno_Curso();
-
-        JSONArray json = response.optJSONArray("alumno_curso");
-        JSONObject jsonObject=null;
-
-        try {
-            jsonObject=json.getJSONObject(0);
-            alumno_curso.setIdAlumnoCurso(jsonObject.optInt("idAlumnoCurso"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // Toast.makeText(getActivity(), "" + alumno_curso.getIdAlumnoCurso(), Toast.LENGTH_SHORT).show();
-        //cargarWebService3(alumno_curso.getIdAlumnoCurso(), idCurso);
-        listOfIds.add(alumno_curso.getIdAlumnoCurso());*/
 
     }
 
@@ -223,6 +200,29 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
 
 
     }
+
+    private void cargarWebService4(int idAlumno)
+    {
+        nService = 4;
+        String url = "https://capacitaciondestino.000webhostapp.com/wsJSONAsistencia.php?idAlumno=" + idAlumno;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+
+    }
+
+   /* private void cargarWebService4(int idAlumno, int idClase)
+    {
+        nService = 4;
+
+
+       // String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idClase=" + list.get(i) + "&idClase=" + idClase;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+
+
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -250,8 +250,17 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo conectar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR", error.toString());
+        if(nService==4)
+        {
+          //  Toast.makeText(getContext(), "Se ha marcado asistencia correctamente", Toast.LENGTH_SHORT).show();
+
+        }
+        else
+        {
+            Toast.makeText(getContext(), "No se pudo conectar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR", error.toString());
+        }
+
     }
 
     @Override
@@ -273,6 +282,7 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
                     alumno.setNombre(jsonObject.optString("nombre"));
                     alumno.setApellido(jsonObject.optString("apellido"));
                     alumno.setIdAlumno(jsonObject.optInt("idAlumno"));
+                    alumno.setAsistencia(jsonObject.optInt("inasistencias"));
 
                     CheckBox cb = new CheckBox(getActivity());
                     cb.setText(alumno.getNombre() + " " + alumno.getApellido());
@@ -332,6 +342,12 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
            // Toast.makeText(getContext(), "Se ha marcado asistencia correctamente", Toast.LENGTH_SHORT).show();
 
         }
+        else if(nService==4)
+        {
+             Toast.makeText(getContext(), "Se ha marcado asistencia correctamente", Toast.LENGTH_SHORT).show();
+
+        }
+
 
 
     }

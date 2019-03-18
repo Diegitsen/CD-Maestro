@@ -14,6 +14,6 @@
     <item
         android:id="@+id/navigation_reporte"
         android:icon="@drawable/reporte"
-        android:title="Reporte" />
+        android:title="Info" />
 
 </menu>

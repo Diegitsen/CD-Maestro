@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,36 +14,49 @@
         android:gravity="center"
         android:layout_margin="15dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/tvLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="265dp"
+            android:layout_height="122dp"
             android:text="Login"
             android:textSize="30dp"
             android:layout_marginBottom="25dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:background="@drawable/cd"
+            />
 
 
         <EditText
+            android:layout_marginTop="40dp"
             android:id="@+id/etUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/square"
             android:hint="Usuario"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:layout_marginBottom="25dp"
+
+            />
 
         <EditText
             android:id="@+id/etContrasenia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contrasenia"
-            android:singleLine="true"/>
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/square"
+            android:hint="Contraseña"
+            android:singleLine="true"
+            android:layout_marginBottom="25dp"
+            android:inputType="textPassword"
+            />
 
 
         <Button
             android:id="@+id/bLogin"
-            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text="Login"
+            android:textColor="#FFF"
             android:onClick="cargarWebService"/>
 
     </LinearLayout>

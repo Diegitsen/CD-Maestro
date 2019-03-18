@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public class AlumnoInfoAdapter extends RecyclerView.Adapter<AlumnoInfoAdapter.AlumnosInfoHolder> {
@@ -46,10 +48,11 @@ public class AlumnoInfoAdapter extends RecyclerView.Adapter<AlumnoInfoAdapter.Al
     public void onBindViewHolder(@NonNull final AlumnosInfoHolder holder, final int position) {
 
         holder.tvNombreAlumno.setText(alumnos.get(position).getNombre() + " " + alumnos.get(position).getApellido());
-        holder.tvMinisterio.setText(alumnos.get(position).getMinisterio() + "");
+        holder.tvMinisterio.setText(getMinisterio(alumnos.get(position).getMinisterio()));
         holder.tvLider.setText(alumnos.get(position).getLider());
         holder.tvTelefono.setText(alumnos.get(position).getTelefono() + "");
         holder.tvDireccion.setText(alumnos.get(position).getDireccion());
+        holder.tvAsistencia.setText(doubleToFormatStringNoDecimals(Math.round(alumnos.get(position).getAsistencia() / 2)) + "");
         holder.ibPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +76,7 @@ public class AlumnoInfoAdapter extends RecyclerView.Adapter<AlumnoInfoAdapter.Al
 
     public class AlumnosInfoHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNombreAlumno, tvMinisterio, tvLider, tvTelefono, tvDireccion;
+        TextView tvNombreAlumno, tvMinisterio, tvLider, tvTelefono, tvDireccion, tvAsistencia;
         ImageButton ibPhone;
 
         public AlumnosInfoHolder(View itemView) {
@@ -83,8 +86,114 @@ public class AlumnoInfoAdapter extends RecyclerView.Adapter<AlumnoInfoAdapter.Al
             tvLider= (TextView) itemView.findViewById(R.id.tvLider);
             tvTelefono= (TextView) itemView.findViewById(R.id.tvTelefono);
             tvDireccion = (TextView) itemView.findViewById(R.id.tvDireccion);
+            tvAsistencia = (TextView) itemView.findViewById(R.id.tvAsistencias);
             ibPhone = itemView.findViewById(R.id.ibPhone);
         }
+    }
+
+    public static String doubleToFormatStringNoDecimals(double val){
+
+        DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+        simbolos.setDecimalSeparator('.');
+        simbolos.setGroupingSeparator(',');
+
+        DecimalFormat formateador = new DecimalFormat("###,##0", simbolos);
+        return formateador.format(val);
+    }
+
+    public String getMinisterio(int id)
+    {
+        String ministerio = null;
+        switch (id)
+        {
+            case 10:
+                ministerio = "Campos";
+                break;
+            case 11:
+                ministerio = "Portillo";
+                break;
+            case 12:
+                ministerio = "Mendoza";
+                break;
+            case 13:
+                ministerio = "Hoyos";
+                break;
+            case 14:
+                ministerio = "Sotero";
+                break;
+            case 15:
+                ministerio = "Zárate";
+                break;
+            case 16:
+                ministerio = "Velasquez";
+                break;
+            case 17:
+                ministerio = "Pin";
+                break;
+            case 18:
+                ministerio = "Ramirez";
+                break;
+            case 19:
+                ministerio = "Vilcarromero";
+                break;
+            case 20:
+                ministerio = "Eguez";
+                break;
+            case 21:
+                ministerio = "Cisneros";
+                break;
+            case 22:
+                ministerio = "Tello";
+                break;
+            case 23:
+                ministerio = "Alfaro";
+                break;
+            case 24:
+                ministerio = "Clavijo";
+                break;
+            case 25:
+                ministerio = "Flores";
+                break;
+            case 26:
+                ministerio = "Otros";
+                break;
+            case 27:
+                ministerio = "Anita Hoyos";
+                break;
+            case 28:
+                ministerio = "Marisela Choque";
+                break;
+            case 29:
+                ministerio = "Rocio Vivanco";
+                break;
+            case 30:
+                ministerio = "Cuadros";
+                break;
+            case 31:
+                ministerio = "Imer Centeno";
+                break;
+            case 32:
+                ministerio = "Gary Alfaro";
+                break;
+            case 33:
+                ministerio = "Beto Chambi";
+                break;
+            case 34:
+                ministerio = "De Paz";
+                break;
+            case 35:
+                ministerio = "Hans Rebaza";
+                break;
+            case 36:
+                ministerio = "Wendy Llontop";
+                break;
+            case 37:
+                ministerio = "Equipo 2";
+                break;
+
+        }
+
+        return ministerio;
     }
 
 }

@@ -28,7 +28,7 @@
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
                 android:textStyle="bold"
-                android:text="Marque la asistencia"
+                android:text="Marque las inasistencia"
                 android:textColor="#333"
                 android:textSize="16sp" />
 

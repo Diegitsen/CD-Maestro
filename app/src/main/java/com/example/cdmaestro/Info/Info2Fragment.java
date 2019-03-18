@@ -183,6 +183,7 @@ public class Info2Fragment extends Fragment implements Response.Listener<JSONObj
                 alumno.setDireccion(jsonObject.optString("direccion"));
                 alumno.setDistrito(jsonObject.optString("distrito"));
                 alumno.setTelefono(jsonObject.optInt("telefono"));
+                alumno.setAsistencia(jsonObject.optDouble("inasistencias"));
 
                 alumnos.add(alumno);
 

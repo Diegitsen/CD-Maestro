@@ -7,7 +7,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Enviar Datos"
+        android:text="Enviar inasistencias"
         android:id="@+id/bSaveData"
         android:layout_gravity="center_horizontal"
         android:background="#669900"

@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ministerio "
                     android:textSize="17sp"
-                    android:layout_weight="1.2"/>
+                    android:layout_weight="1.4"/>
 
             </LinearLayout>
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text="Lider "
                     android:textSize="17sp"
-                    android:layout_weight="1.2"/>
+                    android:layout_weight="1.4"/>
 
             </LinearLayout>
 
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:text="Telefono "
                     android:textSize="17sp"
-                    android:layout_weight="1.2"/>
+                    android:layout_weight="1.4"/>
 
             </LinearLayout>
 
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:text="Direccion "
                     android:textSize="17sp"
-                    android:layout_weight="1.2"/>
+                    android:layout_weight="1.4"/>
 
             </LinearLayout>
 
@@ -134,7 +134,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Asistencias: "
+                    android:text="Inasistencias: "
                     android:textSize="17sp"
                     android:layout_weight="1.5"/>
 
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:text="Asistencias"
                     android:textSize="17sp"
-                    android:layout_weight="1.2"/>
+                    android:layout_weight="1.4"/>
 
             </LinearLayout>
 
@@ -156,15 +156,15 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_weight="3">
+            android:layout_weight="4">
 
             <ImageButton
                 android:layout_gravity="center"
                 android:id="@+id/ibPhone"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/ic_phone"
-                android:backgroundTint="@color/colorAccent"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/phone"
+                android:backgroundTint="@color/skyblue"/>
 
         </LinearLayout>
 
