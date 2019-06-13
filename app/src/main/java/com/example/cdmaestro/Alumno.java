@@ -14,6 +14,7 @@ public class Alumno
     String direccion;
     String distrito;
     double asistencia;
+    int nota;
 
     public int getIdAlumno() {
         return idAlumno;
@@ -109,5 +110,13 @@ public class Alumno
 
     public void setAsistencia(double asistencia) {
         this.asistencia = asistencia;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public void setNota(int nota) {
+        this.nota = nota;
     }
 }

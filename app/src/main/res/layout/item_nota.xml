@@ -10,10 +10,10 @@
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:id="@+id/lay_item_asistencia"
         android:orientation="horizontal"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
 
         >
 
@@ -43,8 +43,15 @@
             >
             <EditText
                 android:id="@+id/etNota"
-                android:layout_width="wrap_content"
+                android:background="@drawable/nota_square"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
+                android:inputType="number"
+                android:singleLine="true"
+                android:maxLength="2"
+                android:text=""
+                android:layout_gravity="center"
+                android:gravity="center"
                 />
         </LinearLayout>
 

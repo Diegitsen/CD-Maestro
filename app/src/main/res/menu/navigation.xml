@@ -6,10 +6,10 @@
         android:icon="@drawable/asistencia"
         android:title="Asistencia" />
 
-    <!--<item
+   <item
         android:id="@+id/navigation_notas"
         android:icon="@drawable/notas"
-        android:title="Notas" />-->
+        android:title="Notas" />
 
     <item
         android:id="@+id/navigation_reporte"

@@ -144,13 +144,13 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
                 {
                     if(allCb.get(i).isChecked())
                     {
-                        //cargarWebService2(allCb.get(i).getId());
-                        cargarWebService4(allCb.get(i).getId());
-                        //nAlumnos++;
+                        cargarWebService2(allCb.get(i).getId());
+                       // cargarWebService4(allCb.get(i).getId());
+                        nAlumnos++;
                     }
                 }
 
-                Toast.makeText(getContext(), "Se ha marcado las inasistencia correctamente", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Se ha marcado las inasistencias correctamente", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -189,7 +189,7 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
 
         for(int i = 0; i < list.size(); i++)
         {
-            String url = "https://capacitaciondestino.000webhostapp.com/wsJSONPonerAsistencia.php?asistio=" + 1 + "&idAlumnoCurso=" + list.get(i) + "&idClase=" + idClase;
+            String url = "https://capacitaciondestino.000webhostapp.com/wsJSONPutAsistencia.php?asistio=" + 1 + "&idAlumnoCurso=" + list.get(i) + "&clase=" + idClase;
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             request.add(jsonObjectRequest);
@@ -440,3 +440,5 @@ public class Asistencia2Fragment extends Fragment implements Response.Listener<J
     }
 
 }
+
+
