@@ -1,4 +1,4 @@
-package com.example.cdmaestro.Notas;
+package com.example.cdmaestro.Ver;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,9 +25,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cdmaestro.Alumno;
-import com.example.cdmaestro.AlumnoAdapter;
+import com.example.cdmaestro.AlumnoNota2Adapter;
 import com.example.cdmaestro.AlumnoNotaAdapter;
 import com.example.cdmaestro.Alumno_Curso;
+import com.example.cdmaestro.Alumno_Nota;
 import com.example.cdmaestro.EditModel;
 import com.example.cdmaestro.R;
 
@@ -39,15 +39,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.cdmaestro.AlumnoNotaAdapter.editModelArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Notas2Fragment.OnFragmentInteractionListener} interface
+ * {@link Ver2Fragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Notas2Fragment#newInstance} factory method to
+ * Use the {@link Ver2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Notas2Fragment extends Fragment implements Response.Listener<JSONObject>,
+public class Ver2Fragment extends Fragment implements Response.Listener<JSONObject>,
         Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,11 +67,14 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
     int nAlumnos = 0;
     int idNota = 0;
     private Button bEnviarDatos;
-    private Button bNotas;
     boolean passNote = true;
+
+    public ArrayList<EditModel> editModelArrayList;
+
 
     RecyclerView recyclerView;
     ArrayList<Alumno> alumnos;
+    ArrayList<Alumno_Nota> alumnos_notas = new ArrayList<>();
 
 
     ProgressDialog progressDialog;
@@ -78,17 +83,12 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
 
     private Spinner spinner;
 
-    public ArrayList<EditModel> editModelArrayList;
-    public ArrayList<EditModel> listNotas;
 
     private int nService = 0;
     private List<Integer> listOfIds = new ArrayList<>();
     private List<Integer> ids = new ArrayList<>();
-    private List<Integer> idsAlumnoCurso = new ArrayList<>();
 
-
-
-    public Notas2Fragment() {
+    public Ver2Fragment() {
         // Required empty public constructor
     }
 
@@ -98,11 +98,11 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Notas2Fragment.
+     * @return A new instance of fragment Ver2Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Notas2Fragment newInstance(String param1, String param2) {
-        Notas2Fragment fragment = new Notas2Fragment();
+    public static Ver2Fragment newInstance(String param1, String param2) {
+        Ver2Fragment fragment = new Ver2Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -113,11 +113,9 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Bundle bundle = this.getArguments();
-        idCurso = bundle.getInt("ID_CURSO");
-
         if (getArguments() != null) {
+            Bundle bundle = this.getArguments();
+            idCurso = bundle.getInt("ID_CURSO");
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -127,90 +125,59 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View vista = inflater.inflate(R.layout.fragment_notas2, container, false);
+        View vista = inflater.inflate(R.layout.fragment_ver2, container, false);
 
         alumnos = new ArrayList<>();
-
-
 
         recyclerView = vista.findViewById(R.id.idRecyclerNotas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
         bEnviarDatos = vista.findViewById(R.id.bSaveData);
-        bNotas = vista.findViewById(R.id.bNotas);
+
 
         spinner = vista.findViewById(R.id.sNota);
         setUpSpinnerNotas(spinner);
 
         editModelArrayList = populateList();
-        //listNotas = populateList();//idk if this is correct
 
-        bEnviarDatos.setOnClickListener(new View.OnClickListener() {
+
+
+        /*bEnviarDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage("Cargando...");
-                progressDialog.show();
-
-                for(int j = 0; j < alumnos.size(); j++)
-                {
-                    if(editModelArrayList.get(j).getEditTextValue()==null)
-                    {
-                        passNote = true;
-                    }
-                }
-
-                if(passNote==true)
-                {
-                    for(int i = 0; i < alumnos.size(); i++)
-                    {
-                        cargarWebService2(ids.get(i));
-                        nAlumnos++;
-                    }
-                }
-                else
-                {
-                    Toast.makeText(getActivity(), "Debe de insertar la nota a todos los alumnos", Toast.LENGTH_LONG).show();
-                    passNote = true;
-                }
-
             }
-        });
-
-        bNotas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                {
-
-
-
-                    for(int i = 0; i < alumnos.size(); i++)
-                    {
-                        cargarWebService5(ids.get(i));
-                        nAlumnos++;
-
-                    }
-                }
-            }
-        });
+        });*/
 
         request = Volley.newRequestQueue(getContext());
 
         cargarWebService();
 
-
-
-        //b enviar datos
-
         return vista;
-
     }
 
-    //retorna listado de alumnos por curso
+    private void cargar()
+    {
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Cargando...");
+        progressDialog.show();
+        nAlumnos = 0;
+        listOfIds.clear();
+        //ids.clear();
+        alumnos_notas.clear();
+
+        for(int i = 0; i < alumnos.size(); i++)
+        {
+            cargarWebService2(ids.get(i));
+            nAlumnos++;
+        }
+    }
+
     private void cargarWebService()
     {
+
         nService = 1;
         String url = "https://capacitaciondestino.000webhostapp.com/wsJSONFiltrarAlumnosPorCurso.php?idCurso=" + idCurso;
 
@@ -218,9 +185,10 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
         request.add(jsonObjectRequest);
     }
 
-    //retorna idAlumnoCurso
     private void cargarWebService2(int idAlumno)
     {
+
+
         nService = 2;
         String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idCurso=" + idCurso;
 
@@ -229,52 +197,28 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
 
     }
 
-    //retorna poner nota
     private void cargarWebService3(List<Integer> list, int idNotax)
     {
+
         nService = 3;
 
         for(int i = 0; i < list.size(); i++)
         {
-            String url = "https://capacitaciondestino.000webhostapp.com/wsJSONPutNota.php?nota=" + editModelArrayList.get(i).getEditTextValue() + "&idAlumnoCurso=" + list.get(i) + "&idNota=" + idNotax;
+            String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetNota.php?idAlumnoCurso=" + list.get(i) + "&idNota=" + idNotax;
 
+            Log.e("url", url);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             request.add(jsonObjectRequest);
         }
 
         //on response yeeeei
+        Toast.makeText(getContext(), "Datos cargados de forma exitosa", Toast.LENGTH_SHORT).show();
+        Log.e("n alumnos: ", alumnos.size() + "");
         progressDialog.hide();
-        Toast.makeText(getContext(), "Se han registrado las notas correctamente", Toast.LENGTH_SHORT).show();
-    }
 
-    //retorna nota del alumno x nombre de nota
-    private void cargarWebService4(List<Integer> list, int idNota)
-    {
-        nService = 4;
-
-        for(int i = 0; i < list.size(); i++)
-        {
-            String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetNota.php?idAlumnoCurso=" + list.get(i) + "&idNota" + idNota;
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-            request.add(jsonObjectRequest);
-        }
-
-        //on response yeeeei
-       // Toast.makeText(getContext(), "Se ha registrado las notas correctamente", Toast.LENGTH_SHORT).show();
 
     }
 
-    //retorna listado de alumnos por curso
-    private void cargarWebService5(int idAlumno)
-    {
-        nService = 5;
-        String url = "https://capacitaciondestino.000webhostapp.com/wsJSONGetIdAlumnoCurso.php?idAlumno=" + idAlumno + "&idCurso=" + idCurso;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        request.add(jsonObjectRequest);
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -303,21 +247,15 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        if(nService==4)
-        {
-            //  Toast.makeText(getContext(), "Se ha marcado asistencia correctamente", Toast.LENGTH_SHORT).show();
-
-        }
-        else
-        {
             Toast.makeText(getContext(), "No se pudo conectar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR", error.toString());
-        }
+
     }
 
     @Override
-    public void onResponse(JSONObject response)
-    {
+    public void onResponse(JSONObject response) {
+
+
         if(nService==1)
         {
             Alumno alumno = null;
@@ -331,7 +269,6 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
                     JSONObject jsonObject = null;
                     jsonObject = json.getJSONObject(i);
 
-
                     alumno.setNombre(jsonObject.optString("nombre"));
                     alumno.setApellido(jsonObject.optString("apellido"));
                     alumno.setIdAlumno(jsonObject.optInt("idAlumno"));
@@ -339,6 +276,7 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
                     ids.add(alumno.getIdAlumno());
 
                     alumnos.add(alumno);
+
 
                 }
 
@@ -359,7 +297,7 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
 
         else if(nService == 2)
         {
-            // progressDialog.hide();
+
 
             Alumno_Curso alumno_curso = new Alumno_Curso();
 
@@ -378,41 +316,43 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
             if(listOfIds.size()==nAlumnos)
             {
                 cargarWebService3(listOfIds, idNota);
+
+                Log.e("N. de ids: ", listOfIds.size()+"");
             }
 
         }
         else if(nService == 3)
         {
-            // Toast.makeText(getContext(), "Se ha marcado asistencia correctamente", Toast.LENGTH_SHORT).show();
+            Alumno_Nota alumno_nota = null;
 
-        }
-        else if(nService==4)
-        {
+            JSONArray json = response.optJSONArray("alumno_curso");
 
-            Alumno alumno = null;
-
-            JSONArray json = response.optJSONArray("alumno");
 
             try{
                 for(int i = 0; i < json.length(); i++)
                 {
-                    alumno = new Alumno();
+                    alumno_nota = new Alumno_Nota();
                     JSONObject jsonObject = null;
                     jsonObject = json.getJSONObject(i);
 
-                    alumno.setNombre(jsonObject.optString("nombre"));
-                    alumno.setApellido(jsonObject.optString("apellido"));
+                    alumno_nota.setNombre(jsonObject.optString("nombre"));
+                    alumno_nota.setApellido(jsonObject.optString("apellido"));
+                    alumno_nota.setNota(jsonObject.optInt("nota"));
 
-                    ids.add(alumno.getIdAlumno());
 
-                    alumnos.add(alumno);
+                    ids.add(alumno_nota.getIdAlumno());
+
+                    alumnos_notas.add(alumno_nota);
 
                 }
 
-                AlumnoNotaAdapter adapter = new AlumnoNotaAdapter(alumnos, editModelArrayList);
+
+                AlumnoNota2Adapter adapter = new AlumnoNota2Adapter(alumnos_notas);
                 recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
                 recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+               // alumnos_notas.clear();
 
             }catch (JSONException e)
             {
@@ -422,28 +362,11 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
                 progressDialog.hide();
             }
         }
-        else if(nService==5)
+        else if(nService==4)
         {
-            Alumno_Curso alumno_curso = new Alumno_Curso();
+            Toast.makeText(getContext(), "Se ha registrado las notas correctamente", Toast.LENGTH_SHORT).show();
 
-            JSONArray json = response.optJSONArray("alumno_curso");
-            JSONObject jsonObject=null;
-
-            try {
-                jsonObject=json.getJSONObject(0);
-                alumno_curso.setIdAlumnoCurso(jsonObject.optInt("idAlumnoCurso"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            listOfIds.add(alumno_curso.getIdAlumnoCurso());
-
-            if(listOfIds.size()==nAlumnos)
-            {
-                cargarWebService4(listOfIds, idNota);
-            }
         }
-
 
     }
 
@@ -462,6 +385,7 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
         void onFragmentInteraction(Uri uri);
     }
 
+
     public void setUpSpinnerNotas(Spinner spinnerNotas)
     {
         spinnerNotas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -472,56 +396,76 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
 
                 switch (item)
                 {
+                    case "Seleccione nota":
+
+                        break;
                     case "Cuest. 1":
                         idNota = 1;
+                        cargar();
                         break;
                     case "Cuest. 2":
                         idNota = 2;
+                        cargar();
                         break;
                     case "Cuest. 3":
                         idNota = 3;
+                        cargar();
                         break;
                     case "Cuest. 4":
                         idNota = 4;
+                        cargar();
                         break;
                     case "Cuest. 5":
                         idNota = 5;
+                        cargar();
                         break;
                     case "Cuest. 6":
                         idNota = 6;
+                        cargar();
                         break;
                     case "Cuest. 7":
                         idNota = 7;
+                        cargar();
                         break;
                     case "Cuest. 8":
                         idNota = 8;
+                        cargar();
                         break;
                     case "Cuest. 9":
                         idNota = 9;
+                        cargar();
                         break;
                     case "Cuest. 10":
                         idNota = 10;
+                        cargar();
                         break;
                     case "Trabajo":
                         idNota = 11;
+                        cargar();
                         break;
                     case "Parcial":
                         idNota = 12;
+                        cargar();
                         break;
                     case "Total":
                         idNota = 13;
+                        cargar();
                         break;
                     case "Asistencia":
                         idNota = 14;
+                        cargar();
                         break;
                     case "Servicio":
                         idNota = 15;
+                        cargar();
                         break;
                     case "Intercesion":
                         idNota = 16;
+                        cargar();
                         break;
                     case "Devocional":
                         idNota = 17;
+                        cargar();
                         break;
 
                 }
@@ -537,6 +481,7 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
 
 
         List<String> nota  = new ArrayList<String>();
+        nota.add("Seleccione nota");
         nota.add("Cuest. 1");
         nota.add("Cuest. 2");
         nota.add("Cuest. 3");
@@ -561,6 +506,7 @@ public class Notas2Fragment extends Fragment implements Response.Listener<JSONOb
 
         spinnerNotas.setAdapter(dataAdapter);
     }
+
 
     private ArrayList<EditModel> populateList(){
 

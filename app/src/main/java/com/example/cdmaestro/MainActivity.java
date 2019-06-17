@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.cdmaestro.Asistencia.AsistenciaFragment;
 import com.example.cdmaestro.Info.InfoFragment;
 import com.example.cdmaestro.Notas.NotasFragment;
+import com.example.cdmaestro.Ver.VerFragment;
 
 public class MainActivity extends AppCompatActivity implements IFragments {
 
@@ -49,6 +50,14 @@ public class MainActivity extends AppCompatActivity implements IFragments {
                     Bundle bundle3 = new Bundle();
                     bundle3.putInt("ID_PROFESOR", idProf);
                     frag.setArguments(bundle3);
+                    fragmentSeleccionado = true;
+                    break;
+
+                case R.id.navigation_ver:
+                    frag = new VerFragment();
+                    Bundle bundle4 = new Bundle();
+                    bundle4.putInt("ID_PROFESOR", idProf);
+                    frag.setArguments(bundle4);
                     fragmentSeleccionado = true;
                     break;
             }

@@ -17,6 +17,7 @@ import com.example.cdmaestro.Asistencia.AsistenciaFragment;
 import com.example.cdmaestro.Info.Info2Fragment;
 import com.example.cdmaestro.Notas.Notas2Fragment;
 import com.example.cdmaestro.Utils.GlobalVars;
+import com.example.cdmaestro.Ver.Ver2Fragment;
 
 import java.util.List;
 
@@ -74,6 +75,8 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.CursosHolder
                     case 3:
                         frag = new Info2Fragment();
                         break;
+                    case 4:
+                        frag = new Ver2Fragment();
                 }
 
                 Bundle b = new Bundle();

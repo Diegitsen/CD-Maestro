@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements Response.Listene
 
         if(!(profesor.getUsuario().isEmpty()) && !(profesor.getContrasenia().isEmpty()))
         {
-            Toast.makeText(this, "Se logeo ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
             goToActivity(profesor.getIdProfesor());
         }
         else

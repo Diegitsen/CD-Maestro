@@ -16,4 +16,9 @@
         android:icon="@drawable/reporte"
         android:title="Info" />
 
+    <item
+        android:id="@+id/navigation_ver"
+        android:icon="@drawable/binoculars"
+        android:title="Ver" />
+
 </menu>
